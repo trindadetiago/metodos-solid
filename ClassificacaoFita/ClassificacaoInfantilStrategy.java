@@ -17,4 +17,9 @@ public class ClassificacaoInfantilStrategy implements ClassificacaoFitaStrategy 
     public CalculadoraPrecoStrategy getCalculadoraPreco() {
         return new CalculadoraPrecoInfantilStrategy();
     }
+    
+    @Override
+    public CalculadoraPontosStrategy getCalculadoraPontos() {
+        return new CalculadoraPontosInfantilStrategy();
+    }
 }

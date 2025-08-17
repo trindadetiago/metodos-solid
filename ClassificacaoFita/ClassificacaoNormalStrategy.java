@@ -17,4 +17,9 @@ public class ClassificacaoNormalStrategy implements ClassificacaoFitaStrategy {
     public CalculadoraPrecoStrategy getCalculadoraPreco() {
         return new CalculadoraPrecoNormalStrategy();
     }
+    
+    @Override
+    public CalculadoraPontosStrategy getCalculadoraPontos() {
+        return new CalculadoraPontosNormalStrategy();
+    }
 }

@@ -23,6 +23,10 @@ public class Tape {
     return classificacao.getCalculadoraPreco();
   }
 
+  public CalculadoraPontosStrategy getCalculadoraPontos() {
+    return classificacao.getCalculadoraPontos();
+  }
+
   public void setClassificacao(ClassificacaoFitaStrategy classificacao) {
     this.classificacao = classificacao;
   }

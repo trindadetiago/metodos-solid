@@ -15,17 +15,13 @@ public class ExtratoTextoStrategy implements ExtratoStrategy {
         while(alugueisIterator.hasNext()) {
             Rent cada = alugueisIterator.next();
             
-            // Usa a calculadora da classificação da fita
+            // Usa a calculadora da classificação da fita para preço
             CalculadoraPrecoStrategy calculadora = cada.getTape().getCalculadoraPreco();
             double valorCorrente = calculadora.calcularPreco(cada.getDiasAlugada());
             
-            // trata de pontos de alugador frequente
-            pontosDeAlugadorFrequente++;
-            // adiciona bonus para Rent de um lançamento por pelo menos 2 dias
-            if(cada.getTape().getCodigoDePreco() == 1 && // LANCAMENTO
-               cada.getDiasAlugada() > 1) {
-               pontosDeAlugadorFrequente++;
-            }
+            // Usa a calculadora da classificação da fita para pontos
+            CalculadoraPontosStrategy calculadoraPontos = cada.getTape().getCalculadoraPontos();
+            pontosDeAlugadorFrequente += calculadoraPontos.calcularPontos(cada.getDiasAlugada());
 
             // mostra valores para este Rent
             resultado += "\t" + cada.getTape().getTitulo() + "\t" + valorCorrente + fimDeLinha;

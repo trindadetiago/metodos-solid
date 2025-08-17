@@ -49,3 +49,12 @@
 
 4) Se esquema de pontos de alugador puder mudar a qualquer hora?
 
+    **Problema:** A lógica de pontos está hardcoded nas estratégias de extrato. Se mudar as regras de pontos (ex: lançamentos ganham 2 pontos, infantis ganham 3 pontos), será necessário alterar múltiplas classes.
+
+    **Solução:** Extrair as regras de pontos para uma interface `CalculadoraPontosStrategy` com implementações específicas:
+    - `CalculadoraPontosNormalStrategy` (1 ponto por aluguel)
+    - `CalculadoraPontosLancamentoStrategy` (1 ponto + 1 bonus se > 1 dia)
+    - `CalculadoraPontosInfantilStrategy` (1 ponto + 1 bonus se > 2 dias)
+    
+    Assim, mudanças no esquema de pontos afetam apenas as calculadoras específicas, não as estratégias de extrato.
+
