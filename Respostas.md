@@ -18,6 +18,10 @@
 
 1) O que acontece se extrato de um cliente deve agora retornar no formato HTML, ao invés de String?
 
+    **Problema:**: Será necessário alterar o método extrato() de Client, ou criar um novo método para retornar HTML. Ou seja, será necessário mudar a classe Client, o que não segue o padrão SOLID.
+
+    **Solução:** Implementar o padrão Strategy com interface `ExtratoStrategy` e classes `ExtratoTextoStrategy`, `ExtratoHtmlStrategy`. Cliente usa `ExtratoFactory.criarExtrato("html")`. 
+        
 
 2) O que ocorre se as regras de cálculo e preço mudarem?
 
