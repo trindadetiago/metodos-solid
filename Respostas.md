@@ -25,6 +25,16 @@
 
 2) O que ocorre se as regras de cálculo e preço mudarem?
 
+    **Problema:** As regras de cálculo estão hardcoded dentro das estratégias de extrato. Se mudar o preço do NORMAL de R$ 2 para R$ 3, ou se mudar a lógica de dias extras, será necessário alterar múltiplas classes.
+
+    **Solução:** Extrair as regras de cálculo para uma interface `CalculadoraPrecoStrategy` com implementações específicas:
+    - `CalculadoraPrecoNormalStrategy` (R$ 2 + R$ 1,50 por dia extra após 2 dias)
+    - `CalculadoraPrecoLancamentoStrategy` (R$ 3 por dia)
+    - `CalculadoraPrecoInfantilStrategy` (R$ 1,50 + R$ 1,50 por dia extra após 3 dias)
+    
+    Assim, mudanças de preço afetam apenas a calculadora específica, não as estratégias de extrato.
+    
+
 3) Se classificação das fitas mudar toda semana?
 
 4) Se esquema de pontos de alugador puder mudar a qualquer hora?

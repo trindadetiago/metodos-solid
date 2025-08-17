@@ -21,27 +21,13 @@ public class ExtratoHtmlStrategy implements ExtratoStrategy {
         resultado.append("<tbody>");
         
         while(alugueisIterator.hasNext()) {
-            double valorCorrente = 0.0;
             Rent cada = alugueisIterator.next();
-
-            // determina valores para cada linha
-            switch(cada.getTape().getCodigoDePreco()) {
-            case Tape.NORMAL:
-                valorCorrente += 2;
-                if(cada.getDiasAlugada() > 2) {
-                    valorCorrente += (cada.getDiasAlugada() - 2) * 1.5;
-                }
-                break;
-            case Tape.LANCAMENTO:
-                valorCorrente += cada.getDiasAlugada() * 3;
-                break;
-            case Tape.INFANTIL:
-                valorCorrente += 1.5;
-                if(cada.getDiasAlugada() > 3) {
-                    valorCorrente += (cada.getDiasAlugada() - 3) * 1.5;
-                }
-                break;
-            }
+            
+            // Usa a calculadora apropriada para determinar o preço
+            CalculadoraPrecoStrategy calculadora = CalculadoraPrecoFactory.criarCalculadora(
+                obterTipoCalculadora(cada.getTape().getCodigoDePreco())
+            );
+            double valorCorrente = calculadora.calcularPreco(cada.getDiasAlugada());
             
             // trata de pontos de alugador frequente
             pontosDeAlugadorFrequente++;
@@ -71,5 +57,14 @@ public class ExtratoHtmlStrategy implements ExtratoStrategy {
         resultado.append("</body></html>");
         
         return resultado.toString();
+    }
+    
+    private String obterTipoCalculadora(int codigoPreco) {
+        switch(codigoPreco) {
+            case Tape.NORMAL: return CalculadoraPrecoFactory.NORMAL;
+            case Tape.LANCAMENTO: return CalculadoraPrecoFactory.LANCAMENTO;
+            case Tape.INFANTIL: return CalculadoraPrecoFactory.INFANTIL;
+            default: throw new IllegalArgumentException("Código de preço não suportado: " + codigoPreco);
+        }
     }
 }
