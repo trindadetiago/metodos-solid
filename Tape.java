@@ -1,14 +1,10 @@
 public class Tape {
-  public static final int NORMAL = 0;
-  public static final int LANCAMENTO = 1;
-  public static final int INFANTIL = 2;
-
   private String titulo;
-  private int codigoDePreco;
+  private ClassificacaoFitaStrategy classificacao;
 
-  public Tape(String titulo, int codigoDePreco) {
+  public Tape(String titulo, ClassificacaoFitaStrategy classificacao) {
     this.titulo = titulo;
-    this.codigoDePreco = codigoDePreco;
+    this.classificacao = classificacao;
   }
 
   public String getTitulo() {
@@ -16,11 +12,25 @@ public class Tape {
   }
 
   public int getCodigoDePreco() {
-    return codigoDePreco;
+    return classificacao.getCodigo();
   }
 
-  public void setCodigoDePreco(int codigoDePreco) {
-    this.codigoDePreco = codigoDePreco;
+  public String getNomeClassificacao() {
+    return classificacao.getNome();
+  }
+
+  public CalculadoraPrecoStrategy getCalculadoraPreco() {
+    return classificacao.getCalculadoraPreco();
+  }
+
+  public void setClassificacao(ClassificacaoFitaStrategy classificacao) {
+    this.classificacao = classificacao;
+  }
+  
+  // Construtor de compatibilidade para manter código existente funcionando
+  public Tape(String titulo, int codigoDePreco) {
+    this.titulo = titulo;
+    this.classificacao = ClassificacaoFitaFactory.criarClassificacaoPorCodigo(codigoDePreco);
   }
 }
 

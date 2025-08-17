@@ -15,16 +15,14 @@ public class ExtratoTextoStrategy implements ExtratoStrategy {
         while(alugueisIterator.hasNext()) {
             Rent cada = alugueisIterator.next();
             
-            // Usa a calculadora apropriada para determinar o preço
-            CalculadoraPrecoStrategy calculadora = CalculadoraPrecoFactory.criarCalculadora(
-                obterTipoCalculadora(cada.getTape().getCodigoDePreco())
-            );
+            // Usa a calculadora da classificação da fita
+            CalculadoraPrecoStrategy calculadora = cada.getTape().getCalculadoraPreco();
             double valorCorrente = calculadora.calcularPreco(cada.getDiasAlugada());
             
             // trata de pontos de alugador frequente
             pontosDeAlugadorFrequente++;
             // adiciona bonus para Rent de um lançamento por pelo menos 2 dias
-            if(cada.getTape().getCodigoDePreco() == Tape.LANCAMENTO &&
+            if(cada.getTape().getCodigoDePreco() == 1 && // LANCAMENTO
                cada.getDiasAlugada() > 1) {
                pontosDeAlugadorFrequente++;
             }
@@ -39,14 +37,5 @@ public class ExtratoTextoStrategy implements ExtratoStrategy {
         resultado += "Voce acumulou " + pontosDeAlugadorFrequente + " pontos de alugador frequente";
         
         return resultado;
-    }
-    
-    private String obterTipoCalculadora(int codigoPreco) {
-        switch(codigoPreco) {
-            case Tape.NORMAL: return CalculadoraPrecoFactory.NORMAL;
-            case Tape.LANCAMENTO: return CalculadoraPrecoFactory.LANCAMENTO;
-            case Tape.INFANTIL: return CalculadoraPrecoFactory.INFANTIL;
-            default: throw new IllegalArgumentException("Código de preço não suportado: " + codigoPreco);
-        }
     }
 }
